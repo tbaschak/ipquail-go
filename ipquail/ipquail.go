@@ -5,6 +5,8 @@
 package main
 
 import (
+  "fmt"
+  "net"
   "github.com/pilu/traffic"
 )
 
@@ -24,7 +26,16 @@ func ipHandler(w traffic.ResponseWriter, r *traffic.Request) {
 }
 
 func ptrHandler(w traffic.ResponseWriter, r *traffic.Request) {
-  w.Render("ptr")
+  addr, err := net.LookupAddr( r.Header.Get("X-Forwarded-For") )
+  fmt.Println(addr, err)
+  traffic.Logger().Print( r.Header.Get("X-Forwarded-For") ) 
+  w.Header().Add("Access-Control-Allow-Origin", "*")
+  w.Header().Add("Access-Control-Allow-Methods", "GET")
+  w.Header().Add("Access-Control-Allow-Headers", "X-Requested-With,Accept,Content-Type,Origin")
+  w.Header().Add("Content-type", "application/json")
+  w.WriteText( "{ \"ptr\": \"" )
+  w.WriteText( addr[0] )
+  w.WriteText( "\" }" )
 }
 
 func main() {
