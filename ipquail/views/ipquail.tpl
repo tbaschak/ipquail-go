@@ -71,7 +71,7 @@
       $.getJSON('http://6.henchcdn.com/api/ptr', function(ad) {
         $('#ipv6ptr').html('<code>' + ad.ptr + '</code>');
       });
-      $.getJSON('http://4.henchcdn.com/api/ip', function(ae) {
+      $.getJSON('http://4.henchcdn.com/api/ptr', function(ae) {
         $('#ipv4ptr').html('<code>' + ae.ptr + '</code>');
       });
     });
