@@ -36,6 +36,10 @@
                 <p id="ipv6">None</p>
                 <h3>Your IPv4 address is:</h3>
                 <p id="ipv4">None</p>
+                <h3>Your IPv6 PTR is:</h3>
+                <p id="ipv6ptr">None</p>
+                <h3>Your IPv4 PTR is:</h3>
+                <p id="ipv4ptr">None</p>
                 <hr>
                 <p>This website can also be shell scripted using curl:<br><code>IP6=`curl -s 6.henchcdn.com`</code> or <code>IP4=`curl -s 4.henchcdn.com`</code></p>
             </div>
@@ -63,6 +67,12 @@
       });
       $.getJSON('http://4.henchcdn.com/api/ip', function(ac) {
         $('#ipv4').html('<code>' + ac.ip + '</code>');
+      });
+      $.getJSON('http://6.henchcdn.com/api/ptr', function(ad) {
+        $('#ipv6ptr').html('<code>' + ad.ptr + '</code>');
+      });
+      $.getJSON('http://4.henchcdn.com/api/ip', function(ae) {
+        $('#ipv4ptr').html('<code>' + ae.ptr + '</code>');
       });
     });
     </script>
