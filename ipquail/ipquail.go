@@ -16,6 +16,24 @@ func indexHandler(w traffic.ResponseWriter, r *traffic.Request) {
 
 func ipHandler(w traffic.ResponseWriter, r *traffic.Request) {
   traffic.Logger().Print( r.Header.Get("X-Forwarded-For") ) 
+  w.Header().Add("Content-type", "text/plain")
+  w.WriteText( r.Header.Get("X-Forwarded-For") )
+}
+
+func ptrHandler(w traffic.ResponseWriter, r *traffic.Request) {
+  addr, err := net.LookupAddr( r.Header.Get("X-Forwarded-For") )
+  fmt.Println(addr, err)
+  traffic.Logger().Print( r.Header.Get("X-Forwarded-For") ) 
+  w.Header().Add("Content-type", "text/plain")
+  if len(addr) > 0 {
+    w.WriteText( addr[0] )
+  } else {
+    w.WriteText( "none" )
+  }
+}
+
+func ipapiHandler(w traffic.ResponseWriter, r *traffic.Request) {
+  traffic.Logger().Print( r.Header.Get("X-Forwarded-For") ) 
   w.Header().Add("Access-Control-Allow-Origin", "*")
   w.Header().Add("Access-Control-Allow-Methods", "GET")
   w.Header().Add("Access-Control-Allow-Headers", "X-Requested-With,Accept,Content-Type,Origin")
@@ -25,7 +43,7 @@ func ipHandler(w traffic.ResponseWriter, r *traffic.Request) {
   w.WriteText( "\" }" )
 }
 
-func ptrHandler(w traffic.ResponseWriter, r *traffic.Request) {
+func ptrapiHandler(w traffic.ResponseWriter, r *traffic.Request) {
   addr, err := net.LookupAddr( r.Header.Get("X-Forwarded-For") )
   fmt.Println(addr, err)
   traffic.Logger().Print( r.Header.Get("X-Forwarded-For") ) 
@@ -49,7 +67,9 @@ func main() {
   // make sure you create a route handler for it
 
   router.Get("/", indexHandler)
-  router.Get("/api/ip", ipHandler)
-  router.Get("/api/ptr", ptrHandler)
+  router.Get("/ip", ipapiHandler)
+  router.Get("/ptr", ptrapiHandler)
+  router.Get("/api/ip", ipapiHandler)
+  router.Get("/api/ptr", ptrapiHandler)
   router.Run()
 }
