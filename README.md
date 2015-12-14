@@ -7,6 +7,8 @@ Here is a go version of ipquail.com. It uses Go-lang and traffic on the backend.
 
 ## nginx config ##
 
+The backend application is setup to use the `x-forwarded-for` header, the following nginx reverse proxy config sets up this header properly.
+
 	server {
 		listen 80 default_server;
 		listen [::]:80 default_server ipv6only=on;
@@ -23,6 +25,8 @@ Here is a go version of ipquail.com. It uses Go-lang and traffic on the backend.
 	}
 
 ## dns zone config ##
+
+The front-end web application uses specific IPv4 and IPv6 only hostnames. The base hostname should be both IPv4 and IPv6 capable.
 
 	$ORIGIN ipquail.com.
 		A		<ip4>
