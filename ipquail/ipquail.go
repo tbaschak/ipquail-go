@@ -10,9 +10,9 @@ import (
   "github.com/pilu/traffic"
 )
 
-func indexHandler(w traffic.ResponseWriter, r *traffic.Request) {
-  w.Render("ipquail")
-}
+//func indexHandler(w traffic.ResponseWriter, r *traffic.Request) {
+//  w.Render("ipquail")
+//}
 
 func ipHandler(w traffic.ResponseWriter, r *traffic.Request) {
   traffic.Logger().Print( r.Header.Get("X-Forwarded-For") ) 
@@ -66,7 +66,7 @@ func main() {
   // add a route for each page you add to the site
   // make sure you create a route handler for it
 
-  router.Get("/", indexHandler)
+//  router.Get("/", indexHandler)
   router.Get("/ip", ipHandler)
   router.Get("/ptr", ptrHandler)
   router.Get("/api/ip", ipapiHandler)
