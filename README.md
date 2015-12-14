@@ -22,12 +22,12 @@ Here is a go version of ipquail.com. It uses Go-lang and traffic on the backend.
 		}
 	}
 
-## dns config ##
+## dns zone config ##
 
 	$ORIGIN ipquail.com.
-		A	<ip4>
+		A		<ip4>
 		AAAA	<ip6>
-	4	A	<ip4>
+	4	A		<ip4>
 	6	AAAA	<ip6>
 
 ### traffic ###
