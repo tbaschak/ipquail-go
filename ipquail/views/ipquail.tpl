@@ -41,7 +41,10 @@
                 <h3>Your IPv4 PTR is:</h3>
                 <p id="ipv4ptr">None</p>
                 <hr>
-                <p>This website can also be shell scripted using curl:<br><code>IP6=`curl -s 6.henchcdn.com/ip`</code> or <code>IP4=`curl -s 4.henchcdn.com/ip`</code> or <code>PTR6=`curl -s 6.henchcdn.com/ptr`</code> or <code>PTR4=`curl -s 4.henchcdn.com/ptr`</code></p>
+                <p>This website can also be shell scripted using curl:<br><code>IP6=`curl -s 6.henchcdn.com/ip`</code> or 
+                <br><code>IP4=`curl -s 4.henchcdn.com/ip`</code> or 
+                <br><code>PTR6=`curl -s 6.henchcdn.com/ptr`</code> or 
+                <br><code>PTR4=`curl -s 4.henchcdn.com/ptr`</code></p>
             </div>
             <div class="col-xs-4 col-sm-4">
                 <img class="img-responsive" src="assets/img/bird.png" alt="A Funny Bird"/>
@@ -76,6 +79,6 @@
       });
     });
     </script>
-    
+
     </body>
 </html>
