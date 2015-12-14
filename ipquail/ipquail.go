@@ -18,6 +18,7 @@ func ipHandler(w traffic.ResponseWriter, r *traffic.Request) {
   traffic.Logger().Print( r.Header.Get("X-Forwarded-For") ) 
   w.Header().Add("Content-type", "text/plain")
   w.WriteText( r.Header.Get("X-Forwarded-For") )
+  w.WriteText( "\n" )
 }
 
 func ptrHandler(w traffic.ResponseWriter, r *traffic.Request) {
@@ -27,8 +28,10 @@ func ptrHandler(w traffic.ResponseWriter, r *traffic.Request) {
   w.Header().Add("Content-type", "text/plain")
   if len(addr) > 0 {
     w.WriteText( addr[0] )
+    w.WriteText( "\n" )
   } else {
     w.WriteText( "none" )
+    w.WriteText( "\n" )
   }
 }
 
