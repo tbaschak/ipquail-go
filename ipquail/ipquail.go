@@ -33,9 +33,13 @@ func ptrHandler(w traffic.ResponseWriter, r *traffic.Request) {
   w.Header().Add("Access-Control-Allow-Methods", "GET")
   w.Header().Add("Access-Control-Allow-Headers", "X-Requested-With,Accept,Content-Type,Origin")
   w.Header().Add("Content-type", "application/json")
-  w.WriteText( "{ \"ptr\": \"" )
-  w.WriteText( addr[0] )
-  w.WriteText( "\" }" )
+  if len(addr) > 0 {
+    w.WriteText( "{ \"ptr\": \"" )
+    w.WriteText( addr[0] )
+    w.WriteText( "\" }" )
+  } else {
+    w.WriteText( "{ \"ptr\": \"none\" }" )
+  }
 }
 
 func main() {
