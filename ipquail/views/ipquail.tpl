@@ -41,7 +41,7 @@
                 <h3>Your IPv4 PTR is:</h3>
                 <p id="ipv4ptr">None</p>
                 <hr>
-                <p>This website can also be shell scripted using curl:<br><code>IP6=`curl -s 6.henchcdn.com`</code> or <code>IP4=`curl -s 4.henchcdn.com`</code></p>
+                <p>This website can also be shell scripted using curl:<br><code>IP6=`curl -s 6.henchcdn.com/ip`</code> or <code>IP4=`curl -s 4.henchcdn.com/ip`</code> or <code>PTR6=`curl -s 6.henchcdn.com/ptr`</code> or <code>PTR4=`curl -s 4.henchcdn.com/ptr`</code></p>
             </div>
             <div class="col-xs-4 col-sm-4">
                 <img class="img-responsive" src="assets/img/bird.png" alt="A Funny Bird"/>
@@ -52,7 +52,7 @@
 
     <div class="container">
       <footer>
-        <p><a href="https://github.com/tbaschak/">&copy; Theo Baschak 2014</a> | <a href="http://henchcdn.com">CDN Delivery by HenchCDN</a></p>
+        <p><a href="https://github.com/tbaschak/">&copy; Theo Baschak 2015</a></p>
       </footer>
     </div> <!-- /container -->
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
@@ -76,6 +76,6 @@
       });
     });
     </script>
-
+    
     </body>
 </html>
