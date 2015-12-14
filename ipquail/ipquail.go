@@ -67,8 +67,8 @@ func main() {
   // make sure you create a route handler for it
 
   router.Get("/", indexHandler)
-  router.Get("/ip", ipapiHandler)
-  router.Get("/ptr", ptrapiHandler)
+  router.Get("/ip", ipHandler)
+  router.Get("/ptr", ptrHandler)
   router.Get("/api/ip", ipapiHandler)
   router.Get("/api/ptr", ptrapiHandler)
   router.Run()
