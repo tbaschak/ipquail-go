@@ -1,4 +1,4 @@
-# ipquail-go 1.0 #
+# ipquail-go 1.1 #
 Here is a go version of ipquail.com. It uses Go-lang and traffic on the backend.
 
     cd ipquail
@@ -33,22 +33,31 @@ The backend application is setup to use the `x-forwarded-for` header, the follow
 			try_files $uri $uri/ =404;
 		}
 
-		# revproxy endpoints
-		location /ip {
-			proxy_pass		http://127.0.0.1:3000/ip;
-			proxy_set_header	X-Forwarded-For $remote_addr;
-			include			proxy_params;
-		}
-		location /ptr {
-			proxy_pass		http://127.0.0.1:3000/ptr;
-			proxy_set_header	X-Forwarded-For $remote_addr;
-			include			proxy_params;
-		}
-		location /api/ {
-			proxy_pass		http://127.0.0.1:3000/api/;
-			proxy_set_header	X-Forwarded-For $remote_addr;
-			include			proxy_params;
-		}
+        # revproxy endpoints
+        location /ip {
+                proxy_pass              http://127.0.0.1:3000/ip;
+                proxy_set_header        X-Forwarded-For $remote_addr;
+                include                 proxy_params;
+                proxy_headers_hash_bucket_size  256;
+        }
+        location /ptr {
+                proxy_pass              http://127.0.0.1:3000/ptr;
+                proxy_set_header        X-Forwarded-For $remote_addr;
+                include                 proxy_params;
+                proxy_headers_hash_bucket_size  256;
+        }
+        location /asn {
+                proxy_pass              http://127.0.0.1:3000/asn;
+                proxy_set_header        X-Forwarded-For $remote_addr;
+                include                 proxy_params;
+                proxy_headers_hash_bucket_size  256;
+        }
+        location /api/ {
+                proxy_pass              http://127.0.0.1:3000/api/;
+                proxy_set_header        X-Forwarded-For $remote_addr;
+                include                 proxy_params;
+                proxy_headers_hash_bucket_size  256;
+        }
 	}
 
 ## dns zone config ##
