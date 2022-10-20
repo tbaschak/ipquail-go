@@ -69,22 +69,22 @@
 
     <script type="text/javascript" language="javascript">
     $(document).ready(function() {
-      $.getJSON('http://6.ipquail.com/api/ip', function(ab) {
+      $.getJSON('//6.ipquail.com/api/ip', function(ab) {
         $('#ipv6').html('<code>' + ab.ip + '</code>');
       });
-      $.getJSON('http://4.ipquail.com/api/ip', function(ac) {
+      $.getJSON('//4.ipquail.com/api/ip', function(ac) {
         $('#ipv4').html('<code>' + ac.ip + '</code>');
       });
-      $.getJSON('http://6.ipquail.com/api/ptr', function(ad) {
+      $.getJSON('//6.ipquail.com/api/ptr', function(ad) {
         $('#ipv6ptr').html('<code>' + ad.ptr + '</code>');
       });
-      $.getJSON('http://4.ipquail.com/api/ptr', function(ae) {
+      $.getJSON('//4.ipquail.com/api/ptr', function(ae) {
         $('#ipv4ptr').html('<code>' + ae.ptr + '</code>');
       });
-      $.getJSON('http://6.ipquail.com/api/asn', function(af) {
+      $.getJSON('//6.ipquail.com/api/asn', function(af) {
         $('#asn6').html('<code>' + af.asn + '</code>');
       });
-      $.getJSON('http://4.ipquail.com/api/asn', function(ag) {
+      $.getJSON('//4.ipquail.com/api/asn', function(ag) {
         $('#asn4').html('<code>' + ag.asn + '</code>');
       });
     });
