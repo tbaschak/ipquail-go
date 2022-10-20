@@ -63,8 +63,8 @@ The front-end web application uses specific IPv4 and IPv6 only hostnames. The ba
 
 ### traffic ###
 
-https://github.com/pilu/traffic
+https://github.com/gravityblast/traffic
 
-(short version `go get github.com/pilu/traffic`)
+(short version `go get github.com/gravityblast/traffic`)
 
 
