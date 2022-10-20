@@ -150,7 +150,10 @@ func ptrApiHandler(w traffic.ResponseWriter, r *traffic.Request) {
 func asnApiHandler(w traffic.ResponseWriter, r *traffic.Request) {
 	remote_ip := r.Header.Get("X-Forwarded-For")
 
-	w.Header().Add("Content-type", "text/plain")
+	w.Header().Add("Access-Control-Allow-Origin", "*")
+	w.Header().Add("Access-Control-Allow-Methods", "GET")
+	w.Header().Add("Access-Control-Allow-Headers", "X-Requested-With,Accept,Content-Type,Origin")
+	w.Header().Add("Content-type", "application/json")
 
 	if IsIPv4(remote_ip) {
 		ipparts := strings.Split(remote_ip, ".")
