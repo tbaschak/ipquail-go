@@ -1,0 +1,4 @@
+github.com/pilu/config v0.0.0-20131214182432-3eb99e6c0b9a h1:Tg4E4cXPZSZyd3H1tJlYo6ZreXV0ZJvE/lorNqyw1AU=
+github.com/pilu/config v0.0.0-20131214182432-3eb99e6c0b9a/go.mod h1:9Or9aIl95Kp43zONcHd5tLZGKXb9iLx0pZjau0uJ5zg=
+github.com/pilu/traffic v0.5.3 h1:gzDC+/uF1JQNnpcjUhVnw3z9xTBKx9y9FLtdLkHrIbQ=
+github.com/pilu/traffic v0.5.3/go.mod h1:pPbakW2fofyQaXrh319Xb9TJpM8gjs/vp+71CztjeK0=
