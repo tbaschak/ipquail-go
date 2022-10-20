@@ -40,6 +40,10 @@
                 <p id="ipv6ptr">None</p>
                 <h3>Your IPv4 PTR is:</h3>
                 <p id="ipv4ptr">None</p>
+                <h3>Your IPv6 source ASN is:</h3>
+                <p id="asn6">None</p>
+                <h3>Your IPv4 source ASN is:</h3>
+                <p id="asn4">None</p>
                 <hr>
                 <p>This website can also be shell scripted using curl:<br><code>IP6=`curl -s 6.ipquail.com/ip`</code> or 
                 <br><code>IP4=`curl -s 4.ipquail.com/ip`</code> or 
@@ -77,25 +81,14 @@
       $.getJSON('http://4.ipquail.com/api/ptr', function(ae) {
         $('#ipv4ptr').html('<code>' + ae.ptr + '</code>');
       });
+      $.getJSON('http://6.ipquail.com/api/asn', function(af) {
+        $('#asn6').html('<code>' + af.asn + '</code>');
+      });
+      $.getJSON('http://4.ipquail.com/api/asn', function(ag) {
+        $('#asn4').html('<code>' + ag.asn + '</code>');
+      });
     });
     </script>
-
-    <!-- Piwik -->
-    <script type="text/javascript">
-      var _paq = _paq || [];
-      _paq.push(["setDomains", ["*.ipaddr.ca","*.4.ipaddr.ca","*.4.ipquail.com","*.6.ipaddr.ca","*.6.ipquail.com","*.ipquail.com"]]);
-      _paq.push(['trackPageView']);
-      _paq.push(['enableLinkTracking']);
-      (function() {
-        var u="//analytics.ciscodude.net/";
-        _paq.push(['setTrackerUrl', u+'piwik.php']);
-        _paq.push(['setSiteId', 2]);
-        var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
-        g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
-      })();
-    </script>
-    <noscript><p><img src="//analytics.ciscodude.net/piwik.php?idsite=2" style="border:0;" alt="" /></p></noscript>
-    <!-- End Piwik Code -->
 
     </body>
 </html>
