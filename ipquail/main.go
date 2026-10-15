@@ -18,6 +18,18 @@ import (
 
 const realIPHeader = "X-Real-IP"
 
+type application struct {
+	lookupAddr func(string) ([]string, error)
+	lookupTXT  func(string) ([]string, error)
+}
+
+func newApplication() *application {
+	return &application{
+		lookupAddr: net.LookupAddr,
+		lookupTXT:  net.LookupTXT,
+	}
+}
+
 func requestIP(w http.ResponseWriter, r *http.Request) (netip.Addr, bool) {
 	peer, err := netip.ParseAddrPort(r.RemoteAddr)
 	if err != nil {
@@ -82,12 +94,12 @@ func ipHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 // Handles /ptr
-func ptrHandler(w http.ResponseWriter, r *http.Request) {
+func (app *application) ptrHandler(w http.ResponseWriter, r *http.Request) {
 	remoteIP, ok := requestIP(w, r)
 	if !ok {
 		return
 	}
-	addr, _ := net.LookupAddr(remoteIP.String())
+	addr, _ := app.lookupAddr(remoteIP.String())
 	w.Header().Set("Content-Type", "text/plain; charset=utf-8")
 	if len(addr) > 0 {
 		_, _ = io.WriteString(w, addr[0]+"\n")
@@ -97,13 +109,13 @@ func ptrHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 // Handles /asn
-func asnHandler(w http.ResponseWriter, r *http.Request) {
+func (app *application) asnHandler(w http.ResponseWriter, r *http.Request) {
 	remoteIP, ok := requestIP(w, r)
 	if !ok {
 		return
 	}
 	w.Header().Set("Content-Type", "text/plain; charset=utf-8")
-	txtrecords, _ := net.LookupTXT(asnQuery(remoteIP))
+	txtrecords, _ := app.lookupTXT(asnQuery(remoteIP))
 	if len(txtrecords) > 0 {
 		split := strings.Split(txtrecords[0], "|")
 		asn := split[0]
@@ -131,12 +143,12 @@ func ipApiHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 // Handles /api/ptr
-func ptrApiHandler(w http.ResponseWriter, r *http.Request) {
+func (app *application) ptrApiHandler(w http.ResponseWriter, r *http.Request) {
 	remoteIP, ok := requestIP(w, r)
 	if !ok {
 		return
 	}
-	addr, _ := net.LookupAddr(remoteIP.String())
+	addr, _ := app.lookupAddr(remoteIP.String())
 	if len(addr) > 0 {
 		writeJSON(w, map[string]string{"ptr": addr[0]})
 	} else {
@@ -144,13 +156,13 @@ func ptrApiHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func asnApiHandler(w http.ResponseWriter, r *http.Request) {
+func (app *application) asnApiHandler(w http.ResponseWriter, r *http.Request) {
 	remoteIP, ok := requestIP(w, r)
 	if !ok {
 		return
 	}
 	asn := "ERR"
-	txtrecords, _ := net.LookupTXT(asnQuery(remoteIP))
+	txtrecords, _ := app.lookupTXT(asnQuery(remoteIP))
 	if len(txtrecords) > 0 {
 		split := strings.Split(txtrecords[0], "|")
 		asn = split[0]
@@ -159,24 +171,27 @@ func asnApiHandler(w http.ResponseWriter, r *http.Request) {
 	writeJSON(w, map[string]string{"asn": asn})
 }
 
-func main() {
+func newMux(app *application) *http.ServeMux {
 	mux := http.NewServeMux()
-
-	// add a route for each page you add to the site
-	// make sure you create a route handler for it
-
 	mux.HandleFunc("GET /ip", ipHandler)
-	mux.HandleFunc("GET /ptr", ptrHandler)
-	mux.HandleFunc("GET /asn", asnHandler)
+	mux.HandleFunc("GET /ptr", app.ptrHandler)
+	mux.HandleFunc("GET /asn", app.asnHandler)
 	mux.HandleFunc("GET /api/ip", ipApiHandler)
-	mux.HandleFunc("GET /api/ptr", ptrApiHandler)
-	mux.HandleFunc("GET /api/asn", asnApiHandler)
+	mux.HandleFunc("GET /api/ptr", app.ptrApiHandler)
+	mux.HandleFunc("GET /api/asn", app.asnApiHandler)
+	return mux
+}
 
-	server := &http.Server{
+func newServer(handler http.Handler) *http.Server {
+	return &http.Server{
 		Addr:              "127.0.0.1:3000",
-		Handler:           mux,
+		Handler:           handler,
 		ReadHeaderTimeout: 5 * time.Second,
 	}
+}
+
+func main() {
+	server := newServer(newMux(newApplication()))
 
 	log.Printf("listening on %s", server.Addr)
 	log.Fatal(server.ListenAndServe())
