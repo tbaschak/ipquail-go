@@ -1,16 +1,18 @@
 //  Description = ipquail website
 //  Author = Theodore Baschak
-//  Version = 1.1
 
 package main
 
 import (
 	"encoding/hex"
+	"encoding/json"
+	"io"
+	"log"
 	"math/big"
 	"net"
+	"net/http"
 	"strings"
-
-	"github.com/pilu/traffic"
+	"time"
 )
 
 // IsIPv4 returns true if the string passed is an IPv4 address
@@ -57,30 +59,27 @@ func Reverse[T any](original []T) (reversed []T) {
 }
 
 // Handles /ip
-func ipHandler(w traffic.ResponseWriter, r *traffic.Request) {
-	w.Header().Add("Content-type", "text/plain")
-	w.WriteText(r.Header.Get("X-Forwarded-For"))
-	w.WriteText("\n")
+func ipHandler(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "text/plain; charset=utf-8")
+	_, _ = io.WriteString(w, r.Header.Get("X-Forwarded-For")+"\n")
 }
 
 // Handles /ptr
-func ptrHandler(w traffic.ResponseWriter, r *traffic.Request) {
+func ptrHandler(w http.ResponseWriter, r *http.Request) {
 	addr, _ := net.LookupAddr(r.Header.Get("X-Forwarded-For"))
-	w.Header().Add("Content-type", "text/plain")
+	w.Header().Set("Content-Type", "text/plain; charset=utf-8")
 	if len(addr) > 0 {
-		w.WriteText(addr[0])
-		w.WriteText("\n")
+		_, _ = io.WriteString(w, addr[0]+"\n")
 	} else {
-		w.WriteText("none")
-		w.WriteText("\n")
+		_, _ = io.WriteString(w, "none\n")
 	}
 }
 
 // Handles /asn
-func asnHandler(w traffic.ResponseWriter, r *traffic.Request) {
+func asnHandler(w http.ResponseWriter, r *http.Request) {
 	remote_ip := r.Header.Get("X-Forwarded-For")
 
-	w.Header().Add("Content-type", "text/plain")
+	w.Header().Set("Content-Type", "text/plain; charset=utf-8")
 
 	if IsIPv4(remote_ip) {
 		ipparts := strings.Split(remote_ip, ".")
@@ -91,11 +90,9 @@ func asnHandler(w traffic.ResponseWriter, r *traffic.Request) {
 		if len(txtrecords) > 0 {
 			split := strings.Split(txtrecords[0], "|")
 			asn := split[0]
-			w.WriteText(asn)
-			w.WriteText("\n")
+			_, _ = io.WriteString(w, asn+"\n")
 		} else {
-			w.WriteText("ERR")
-			w.WriteText("\n")
+			_, _ = io.WriteString(w, "ERR\n")
 		}
 	} else if IsIPv6(remote_ip) {
 		// do IPv6 stuff
@@ -108,52 +105,43 @@ func asnHandler(w traffic.ResponseWriter, r *traffic.Request) {
 			// do stuff with the first result
 			split := strings.Split(txtrecords[0], "|")
 			asn := split[0]
-			w.WriteText(asn)
-			w.WriteText("\n")
+			_, _ = io.WriteString(w, asn+"\n")
 		} else {
-			w.WriteText("ERR")
-			w.WriteText("\n")
+			_, _ = io.WriteString(w, "ERR\n")
 		}
 	} else {
-		w.WriteText("ERR")
-		w.WriteText("\n")
+		_, _ = io.WriteString(w, "ERR\n")
+	}
+}
+
+func writeJSON(w http.ResponseWriter, value any) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Methods", "GET")
+	w.Header().Set("Access-Control-Allow-Headers", "X-Requested-With,Accept,Content-Type,Origin")
+	w.Header().Set("Content-Type", "application/json")
+	if err := json.NewEncoder(w).Encode(value); err != nil {
+		log.Printf("write JSON response: %v", err)
 	}
 }
 
 // Handles /api/ip
-func ipApiHandler(w traffic.ResponseWriter, r *traffic.Request) {
-	w.Header().Add("Access-Control-Allow-Origin", "*")
-	w.Header().Add("Access-Control-Allow-Methods", "GET")
-	w.Header().Add("Access-Control-Allow-Headers", "X-Requested-With,Accept,Content-Type,Origin")
-	w.Header().Add("Content-type", "application/json")
-	w.WriteText("{ \"ip\": \"")
-	w.WriteText(r.Header.Get("X-Forwarded-For"))
-	w.WriteText("\" }")
+func ipApiHandler(w http.ResponseWriter, r *http.Request) {
+	writeJSON(w, map[string]string{"ip": r.Header.Get("X-Forwarded-For")})
 }
 
 // Handles /api/ptr
-func ptrApiHandler(w traffic.ResponseWriter, r *traffic.Request) {
+func ptrApiHandler(w http.ResponseWriter, r *http.Request) {
 	addr, _ := net.LookupAddr(r.Header.Get("X-Forwarded-For"))
-	w.Header().Add("Access-Control-Allow-Origin", "*")
-	w.Header().Add("Access-Control-Allow-Methods", "GET")
-	w.Header().Add("Access-Control-Allow-Headers", "X-Requested-With,Accept,Content-Type,Origin")
-	w.Header().Add("Content-type", "application/json")
 	if len(addr) > 0 {
-		w.WriteText("{ \"ptr\": \"")
-		w.WriteText(addr[0])
-		w.WriteText("\" }")
+		writeJSON(w, map[string]string{"ptr": addr[0]})
 	} else {
-		w.WriteText("{ \"ptr\": \"none\" }")
+		writeJSON(w, map[string]string{"ptr": "none"})
 	}
 }
 
-func asnApiHandler(w traffic.ResponseWriter, r *traffic.Request) {
+func asnApiHandler(w http.ResponseWriter, r *http.Request) {
 	remote_ip := r.Header.Get("X-Forwarded-For")
-
-	w.Header().Add("Access-Control-Allow-Origin", "*")
-	w.Header().Add("Access-Control-Allow-Methods", "GET")
-	w.Header().Add("Access-Control-Allow-Headers", "X-Requested-With,Accept,Content-Type,Origin")
-	w.Header().Add("Content-type", "application/json")
+	asn := "ERR"
 
 	if IsIPv4(remote_ip) {
 		ipparts := strings.Split(remote_ip, ".")
@@ -163,10 +151,7 @@ func asnApiHandler(w traffic.ResponseWriter, r *traffic.Request) {
 
 		if len(txtrecords) > 0 {
 			split := strings.Split(txtrecords[0], "|")
-			asn := split[0]
-			w.WriteText("{ \"asn\": \"" + asn + "\" }")
-		} else {
-			w.WriteText("{ \"asn\": \"ERR\" }")
+			asn = split[0]
 		}
 	} else if IsIPv6(remote_ip) {
 		// do IPv6 stuff
@@ -178,28 +163,32 @@ func asnApiHandler(w traffic.ResponseWriter, r *traffic.Request) {
 		if len(txtrecords) > 0 {
 			// do stuff with the first result
 			split := strings.Split(txtrecords[0], "|")
-			asn := split[0]
-			w.WriteText("{ \"asn\": \"" + asn + "\" }")
-		} else {
-			w.WriteText("{ \"asn\": \"ERR\" }")
+			asn = split[0]
 		}
-	} else {
-		w.WriteText("{ \"asn\": \"ERR\" }")
 	}
+
+	writeJSON(w, map[string]string{"asn": asn})
 }
 
 func main() {
-	router := traffic.New()
+	mux := http.NewServeMux()
 
 	// add a route for each page you add to the site
 	// make sure you create a route handler for it
 
-	//  router.Get("/", indexHandler)
-	router.Get("/ip", ipHandler)
-	router.Get("/ptr", ptrHandler)
-	router.Get("/asn", asnHandler)
-	router.Get("/api/ip", ipApiHandler)
-	router.Get("/api/ptr", ptrApiHandler)
-	router.Get("/api/asn", asnApiHandler)
-	router.Run()
+	mux.HandleFunc("GET /ip", ipHandler)
+	mux.HandleFunc("GET /ptr", ptrHandler)
+	mux.HandleFunc("GET /asn", asnHandler)
+	mux.HandleFunc("GET /api/ip", ipApiHandler)
+	mux.HandleFunc("GET /api/ptr", ptrApiHandler)
+	mux.HandleFunc("GET /api/asn", asnApiHandler)
+
+	server := &http.Server{
+		Addr:              ":3000",
+		Handler:           mux,
+		ReadHeaderTimeout: 5 * time.Second,
+	}
+
+	log.Printf("listening on %s", server.Addr)
+	log.Fatal(server.ListenAndServe())
 }

@@ -1,0 +1,33 @@
+version: 2
+
+project_name: ipquail-go
+
+builds:
+  - id: ipquail-go
+    main: .
+    binary: ipquail-go
+    env:
+      - CGO_ENABLED=0
+    flags:
+      - -trimpath
+    ldflags:
+      - -s -w -X main.version={{ .Tag }} -X main.commit={{ .Commit }}
+    goos:
+      - linux
+    goarch:
+      - amd64
+
+archives:
+  - formats:
+      - tar.gz
+    name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
+
+checksum:
+  name_template: checksums.txt
+
+changelog:
+  sort: asc
+  filters:
+    exclude:
+      - "^docs:"
+      - "^test:"

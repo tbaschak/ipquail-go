@@ -1,5 +1,8 @@
-# ipquail-go 1.1 #
-Here is a go version of ipquail.com. It uses Go-lang and traffic on the backend.
+# ipquail-go #
+
+Here is a Go version of ipquail.com. The backend uses Go's standard `net/http` package.
+
+Go 1.26 or newer is required.
 
     cd ipquail
     go build
@@ -70,10 +73,7 @@ The front-end web application uses specific IPv4 and IPv6 only hostnames. The ba
 	4	A		<ip4>
 	6	AAAA	<ip6>
 
-### traffic ###
+## Backend
 
-https://github.com/gravityblast/traffic
-
-(short version `go get github.com/gravityblast/traffic`)
-
+The backend listens on port `3000` through the nginx reverse proxy shown above. It has no third-party Go dependencies.
 
