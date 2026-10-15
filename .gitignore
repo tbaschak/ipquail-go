@@ -1,8 +1,15 @@
 # Build output
 /bin/
 /dist/
+/node_modules/
 ipquail/ipquail
 ipquail/ipquail.exe
+
+# Generated web dependencies
+/ipquail/public/css/bootstrap*.css
+/ipquail/public/css/bootstrap*.css.map
+/ipquail/public/js/vendor/jquery*.js
+/ipquail/public/js/vendor/jquery*.map
 
 # Compiled binaries and libraries
 *.exe

@@ -1,0 +1,14 @@
+{
+  "name": "ipquail-go-web",
+  "private": true,
+  "engines": {
+    "node": "24.x"
+  },
+  "scripts": {
+    "build": "node scripts/deploy-web.mjs"
+  },
+  "dependencies": {
+    "bootstrap": "5.3.8",
+    "jquery": "4.0.0"
+  }
+}
