@@ -1,2 +1,35 @@
+# Build output
+/bin/
+/dist/
 ipquail/ipquail
 ipquail/ipquail.exe
+
+# Compiled binaries and libraries
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Go test and coverage output
+*.test
+*.out
+coverage.*
+
+# Profiling and tracing output
+*.prof
+*.pprof
+*.trace
+
+# Local environment files
+.env
+.env.*
+!.env.example
+
+# Editor and operating-system files
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
