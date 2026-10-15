@@ -7,42 +7,50 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <link href="css/bootstrap-5.3.8.min.css" rel="stylesheet">
+        <link href="css/main.css" rel="stylesheet">
     </head>
     <body class="pt-5 pb-4">
     <main class="py-5 mb-4 bg-body-tertiary">
-      <div class="container">
-        <div class="row">
-            <div class="col-8">
-                <h1 class="display-4">IP Quail!</h1>
-                <p class="lead">This website will tell you your IP[v4|v6] addresses.</p>
-                <h3>Your IPv6 address is:</h3>
+      <div class="container content-container">
+        <h1 class="display-2 fw-bold">IP Quail!</h1>
+        <p class="lead">This website will tell you your IP[v4|v6] addresses.</p>
+      </div>
+      <div class="container content-container">
+        <div class="row align-items-start">
+            <div class="col-8 col-lg-6">
+                <h3>IPv6 address:</h3>
                 <p id="ipv6">None</p>
-                <h3>Your IPv4 address is:</h3>
+                <h3>IPv4 address:</h3>
                 <p id="ipv4">None</p>
-                <h3>Your IPv6 PTR is:</h3>
+                <h3>IPv6 PTR:</h3>
                 <p id="ipv6ptr">None</p>
-                <h3>Your IPv4 PTR is:</h3>
+                <h3>IPv4 PTR:</h3>
                 <p id="ipv4ptr">None</p>
-                <h3>Your IPv6 source ASN is:</h3>
+                <h3>IPv6 source ASN:</h3>
                 <p id="asn6">None</p>
-                <h3>Your IPv4 source ASN is:</h3>
+                <h3>IPv4 source ASN:</h3>
                 <p id="asn4">None</p>
             </div>
-            <div class="col-4">
+            <div class="col-4 col-lg-6 text-center">
                 <img class="img-fluid" src="assets/img/bird.png" alt="A Funny Bird"/>
             </div>
         </div>
       </div>
-      <div class="container">
+      <div class="container content-container">
         <hr>
-        <p>This website can also be shell scripted using curl:<br><code>IP6=`curl -s 6.ipquail.com/ip`</code> or
-        <br><code>IP4=`curl -s 4.ipquail.com/ip`</code> or
-        <br><code>PTR6=`curl -s 6.ipquail.com/ptr`</code> or
-        <br><code>PTR4=`curl -s 4.ipquail.com/ptr`</code></p>
+        <p>This website can also be shell scripted using curl:<br><code>IP6=`curl -s https://6.ipquail.com/ip`</code> or
+        <br><code>IP4=`curl -s https://4.ipquail.com/ip`</code> or
+        <br><code>PTR6=`curl -s https://6.ipquail.com/ptr`</code> or
+        <br><code>PTR4=`curl -s https://4.ipquail.com/ptr`</code></p>
+        <p>Using PowerShell:</p>
+        <code>$IP6 = Invoke-RestMethod 'https://6.ipquail.com/ip'</code><br>
+        <code>$IP4 = Invoke-RestMethod 'https://4.ipquail.com/ip'</code><br>
+        <code>$PTR6 = Invoke-RestMethod 'https://6.ipquail.com/ptr'</code><br>
+        <code>$PTR4 = Invoke-RestMethod 'https://4.ipquail.com/ptr'</code>
       </div>
     </main>
 
-    <div class="container">
+    <div class="container content-container">
       <footer>
         <p><a href="https://github.com/tbaschak/">&copy; Theo Baschak 2015-2026</a></p>
       </footer>
