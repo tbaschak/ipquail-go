@@ -10,9 +10,6 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
-      day: "monday"
-      time: "09:00"
-      timezone: "America/Winnipeg"
     groups:
       npm-minor-and-patch:
         patterns:
@@ -25,9 +22,6 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
-      day: "monday"
-      time: "09:00"
-      timezone: "America/Winnipeg"
     groups:
       go-modules-minor-and-patch:
         patterns:
@@ -40,9 +34,6 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
-      day: "monday"
-      time: "09:00"
-      timezone: "America/Winnipeg"
     groups:
       github-actions-minor-and-patch:
         patterns:
