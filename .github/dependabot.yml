@@ -35,9 +35,6 @@ updates:
     schedule:
       interval: "weekly"
     groups:
-      github-actions-minor-and-patch:
+      github-actions-dependencies:
         patterns:
           - "*"
-        update-types:
-          - "minor"
-          - "patch"
