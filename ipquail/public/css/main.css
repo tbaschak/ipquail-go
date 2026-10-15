@@ -5,5 +5,38 @@
    ========================================================================== */
 
 .content-container {
-    max-width: 960px;
+    max-width: 768px;
+}
+
+.address-container {
+    position: relative;
+}
+
+.address-container::before {
+    position: absolute;
+    inset: 0;
+    content: "";
+    background-image: url("../assets/img/bird.png");
+    background-position: right top;
+    background-repeat: no-repeat;
+    background-size: 329px auto;
+    opacity: 0.3;
+    pointer-events: none;
+}
+
+.address-details {
+    position: relative;
+    width: 100%;
+}
+
+.address-details p,
+.address-details code {
+    overflow-wrap: anywhere;
+    word-break: break-all;
+}
+
+.address-details code {
+    color: #343a40;
+    font-size: 1.05em;
+    font-weight: 700;
 }

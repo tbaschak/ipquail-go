@@ -7,17 +7,16 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <link href="css/bootstrap-5.3.8.min.css" rel="stylesheet">
-        <link href="css/main.css" rel="stylesheet">
+        <link href="css/main.css?v=8" rel="stylesheet">
     </head>
-    <body class="pt-5 pb-4">
-    <main class="py-5 mb-4 bg-body-tertiary">
+    <body class="pt-2 pt-md-5 pb-4">
+    <main class="py-4 py-md-5 mb-4 bg-body-tertiary">
       <div class="container content-container">
         <h1 class="display-2 fw-bold">IP Quail!</h1>
         <p class="lead">This website will tell you your IP[v4|v6] addresses.</p>
       </div>
-      <div class="container content-container">
-        <div class="row align-items-start">
-            <div class="col-8 col-lg-6">
+      <div class="container content-container address-container">
+            <div class="address-details">
                 <h3>IPv6 address:</h3>
                 <p id="ipv6">None</p>
                 <h3>IPv4 address:</h3>
@@ -31,10 +30,6 @@
                 <h3>IPv4 source ASN:</h3>
                 <p id="asn4">None</p>
             </div>
-            <div class="col-4 col-lg-6 text-center">
-                <img class="img-fluid" src="assets/img/bird.png" alt="A Funny Bird"/>
-            </div>
-        </div>
       </div>
       <div class="container content-container">
         <hr>
