@@ -4,7 +4,7 @@ BIN_DIR := bin
 GO ?= go
 GOFLAGS ?=
 
-.PHONY: all build run test fmt vet clean
+.PHONY: all build run test fmt vet verify clean
 
 all: build
 
@@ -23,6 +23,15 @@ fmt:
 
 vet:
 	$(GO) vet $(GOFLAGS) ./...
+
+verify:
+	@unformatted="$$(gofmt -l $$(find . -type f -name '*.go' -not -path './vendor/*'))"; \
+	if [ -n "$$unformatted" ]; then \
+		echo "The following Go files need formatting:"; \
+		echo "$$unformatted"; \
+		exit 1; \
+	fi
+	$(GO) mod tidy -diff
 
 clean:
 	$(GO) clean

@@ -4,7 +4,7 @@ project_name: ipquail-go
 
 builds:
   - id: ipquail-go
-    main: .
+    main: ./ipquail
     binary: ipquail-go
     env:
       - CGO_ENABLED=0
@@ -21,6 +21,10 @@ archives:
   - formats:
       - tar.gz
     name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
+    files:
+      - LICENSE.md
+      - README.md
+      - ipquail/public/**/*
 
 checksum:
   name_template: checksums.txt
