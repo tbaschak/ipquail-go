@@ -24,7 +24,7 @@ archives:
     files:
       - LICENSE.md
       - README.md
-      - ipquail/public/**/*
+      - ipquail/public/**
 
 checksum:
   name_template: checksums.txt
